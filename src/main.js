@@ -7,9 +7,21 @@ import App from "./App.vue";
 import router from "./router";
 
 import { OhVueIcon, addIcons } from "oh-vue-icons";
-import { GiHamburgerMenu } from "oh-vue-icons/icons";
+import {
+  GiHamburgerMenu,
+  HiSolidUsers,
+  MdCategoryRound,
+  MdProductionquantitylimits,
+  FaUsers,
+} from "oh-vue-icons/icons";
 
-addIcons(GiHamburgerMenu);
+addIcons(
+  GiHamburgerMenu,
+  HiSolidUsers,
+  MdCategoryRound,
+  MdProductionquantitylimits,
+  FaUsers
+);
 
 const app = createApp(App);
 

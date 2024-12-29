@@ -15,7 +15,7 @@ const toggleSidebar = () => {
   <main class="flex h-screen overflow-hidden">
     <!-- Sidebar -->
     <AdminSidebar
-      class="bg-gray-900 text-white fixed top-0 left-0 h-full w-64 transition-transform transform lg:translate-x-0"
+      class="bg-gray-600 text-white fixed top-0 left-0 h-full w-64 transition-transform transform lg:translate-x-0"
       :class="{ '-translate-x-full': !isSidebarOpen }"
     />
 
@@ -23,7 +23,8 @@ const toggleSidebar = () => {
     <div class="flex flex-col flex-1 lg:ml-64">
       <!-- Navbar -->
       <AdminNav
-        class="bg-red-500 w-full px-4 py-4 lg:left-64 fixed top-0 lg:w-[calc(100%-16rem)] z-10"
+        @toggle-sidebar="toggleSidebar"
+        class="shadow-md w-full px-4 py-4 lg:left-64 fixed top-0 lg:w-[calc(100%-16rem)] z-10"
       />
       <main class="mt-16 flex-1 p-4 overflow-y-auto">
         <RouterView />

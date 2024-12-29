@@ -1,7 +1,9 @@
 import AdminLayout from "@/layouts/AdminLayout.vue";
 import Category from "@/views/Admin/Category.vue";
+import Product from "@/views/Admin/Product.vue";
 import Supplier from "@/views/Admin/Supplier.vue";
 import Users from "@/views/Admin/Users.vue";
+import Login from "@/views/Login.vue";
 import Home from "@/views/Salesperson/Home.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -12,24 +14,30 @@ const routes = [
     component: Home,
   },
   {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
     path: "/admin/users",
     component: AdminLayout,
     children: [
       {
         path: "/admin/users",
-        name: "Users",
         component: Users,
       },
 
       {
         path: "/admin/category",
-        name: "Category",
         component: Category,
       },
       {
-        path: "/admin/supplier",
-        name: "Suppliers",
+        path: "/admin/suppliers",
         component: Supplier,
+      },
+      {
+        path: "/admin/products",
+        component: Product,
       },
     ],
   },
