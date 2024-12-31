@@ -1,3 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.lobster {
+  font-family: "Lobster", serif;
+  font-weight: 400;
+  font-style: normal;
+}
