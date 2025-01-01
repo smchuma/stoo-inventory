@@ -1,7 +1,9 @@
 <script setup>
 import Input from "@/components/Login/Input.vue";
+import { useAuthStore } from "@/stores/auth";
 import { Form } from "vee-validate";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 import * as yup from "yup";
 
 const schema = yup.object().shape({
@@ -9,17 +11,22 @@ const schema = yup.object().shape({
   password: yup.string().required(),
 });
 
+const router = useRoute();
+
 const formData = ref({
   email: "",
   password: "",
 });
 
-const handleSubmit = (values) => {
-  console.log(values);
-};
+const { handleSubmit } = useAuthStore();
 
-const reset = () => {
-  form.value.resetForm();
+const handleFormSubmit = async (values, { resetForm }) => {
+  try {
+    await handleSubmit(values);
+    resetForm();
+  } catch (error) {
+    console.log(error);
+  }
 };
 </script>
 
@@ -33,7 +40,7 @@ const reset = () => {
       <Form
         ref="form"
         :validation-schema="schema"
-        @submit="handleSubmit"
+        @submit="handleFormSubmit"
         :initial-values="formData"
         class="space-y-4 mb-10"
       >

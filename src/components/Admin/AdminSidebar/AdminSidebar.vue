@@ -2,7 +2,7 @@
 
 <template>
   <main class="">
-    <h1 class="mt-4 text-center">stoo</h1>
+    <h1 class="lobster text-4xl text-center text-white my-8">stoo</h1>
 
     <div class="mt-8">
       <div
@@ -13,7 +13,7 @@
         }"
       >
         <v-icon name="hi-solid-users" class="w-6 h-6 mr-2" />
-        <RouterLink to="/admin/users">Users</RouterLink>
+        <RouterLink :to="{ name: 'users' }">Users</RouterLink>
       </div>
 
       <div
@@ -24,7 +24,7 @@
         }"
       >
         <v-icon name="md-category-round" class="text-2xl mr-2 w-6 h-6" />
-        <RouterLink to="/admin/category">Category</RouterLink>
+        <RouterLink :to="{ name: 'category' }">Category</RouterLink>
       </div>
       <div
         class="flex gap-x-2 w-full px-5 py-2 items-center mb-3"
