@@ -8,6 +8,15 @@
       <div
         class="flex gap-x-2 w-full px-5 py-2 items-center mb-2"
         :class="{
+          'bg-gray-500 border-b-2 border-b-gray-400': $route.path == '',
+        }"
+      >
+        <v-icon name="md-dashboardcustomize" class="w-6 h-6 mr-2" />
+        <RouterLink :to="{ name: '' }">Dashboard</RouterLink>
+      </div>
+      <div
+        class="flex gap-x-2 w-full px-5 py-2 items-center mb-2"
+        :class="{
           'bg-gray-500 border-b-2 border-b-gray-400':
             $route.path == '/admin/users',
         }"

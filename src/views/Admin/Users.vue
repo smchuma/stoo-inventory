@@ -1,5 +1,9 @@
-<template>
-  <h1>This is the users page</h1>
-</template>
+<script setup>
+import Header from "@/components/Admin/Header/Header.vue";
+import UsersTable from "@/components/Admin/UsersTable/UsersTable.vue";
+</script>
 
-<script setup></script>
+<template>
+  <Header />
+  <UsersTable />
+</template>

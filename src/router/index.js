@@ -63,16 +63,6 @@ router.beforeEach(async (to, from, next) => {
       return next("/login");
     }
   }
-
-  // if (!authStore.authUser) {
-  //   try {
-  //     await authStore.getUser();
-  //   } catch (error) {
-  //     authStore.logout();
-  //     return next("/login");
-  //   }
-  // }
-
   next();
 });
 

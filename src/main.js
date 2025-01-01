@@ -6,6 +6,8 @@ import { createApp, markRaw } from "vue";
 import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
 
+import Tooltip from "primevue/tooltip";
+
 import App from "./App.vue";
 import router from "./router";
 
@@ -16,15 +18,16 @@ import {
   MdCategoryRound,
   MdProductionquantitylimits,
   FaUsers,
+  MdDashboardcustomize,
 } from "oh-vue-icons/icons";
-import { useAuthStore } from "./stores/auth";
 
 addIcons(
   GiHamburgerMenu,
   HiSolidUsers,
   MdCategoryRound,
   MdProductionquantitylimits,
-  FaUsers
+  FaUsers,
+  MdDashboardcustomize
 );
 const app = createApp(App);
 const pinia = createPinia();
@@ -39,6 +42,9 @@ app.use(router);
 app.use(PrimeVue, {
   theme: "none",
 });
+
+app.directive("tooltip", Tooltip);
+
 app.component("v-icon", OhVueIcon);
 
 // const authStore = useAuthStore();
