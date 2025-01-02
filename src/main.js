@@ -5,6 +5,7 @@ import "primeicons/primeicons.css";
 import { createApp, markRaw } from "vue";
 import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
+import Aura from "@primevue/themes/aura";
 
 import Tooltip from "primevue/tooltip";
 
@@ -19,6 +20,7 @@ import {
   MdProductionquantitylimits,
   FaUsers,
   MdDashboardcustomize,
+  IoNotificationsOutline,
 } from "oh-vue-icons/icons";
 
 addIcons(
@@ -27,7 +29,8 @@ addIcons(
   MdCategoryRound,
   MdProductionquantitylimits,
   FaUsers,
-  MdDashboardcustomize
+  MdDashboardcustomize,
+  IoNotificationsOutline
 );
 const app = createApp(App);
 const pinia = createPinia();
@@ -40,14 +43,16 @@ app.use(pinia);
 app.use(router);
 
 app.use(PrimeVue, {
-  theme: "none",
+  theme: {
+    preset: Aura,
+    options: {
+      darkModeSelector: false || "none",
+    },
+  },
 });
 
 app.directive("tooltip", Tooltip);
 
 app.component("v-icon", OhVueIcon);
-
-// const authStore = useAuthStore();
-// authStore.getUser();
 
 app.mount("#app");

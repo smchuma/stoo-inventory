@@ -64,20 +64,25 @@ const menuItems = [
       <button class="block lg:hidden" @click="onToggleSidebar">
         <v-icon name="gi-hamburger-menu" />
       </button>
-      <h1>ss</h1>
+      <h1>IoNotifications</h1>
     </div>
-    <Menu
-      ref="menu"
-      :model="menuItems"
-      popup
-      class="bg-gray-1"
-      id="overlay_menu"
-    />
-    <Avatar
-      :label="getInitials(authStore.authUser)"
-      class="mr-2 bg-gray-200 border-5 cursor-pointer"
-      shape="circle"
-      @click="menu.toggle($event)"
-    />
+
+    <div class="flex items-center gap-x-5">
+      <v-icon name="io-notifications-outline" />
+
+      <Menu
+        ref="menu"
+        :model="menuItems"
+        popup
+        class="bg-gray-1"
+        id="overlay_menu"
+      />
+      <Avatar
+        :label="getInitials(authStore.authUser)"
+        class="bg-gray-200 border-5 cursor-pointer"
+        shape="circle"
+        @click="menu.toggle($event)"
+      />
+    </div>
   </div>
 </template>

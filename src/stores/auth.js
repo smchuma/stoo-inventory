@@ -14,21 +14,6 @@ export const useAuthStore = defineStore("auth", {
       await axios.get("/sanctum/csrf-cookie");
     },
 
-    async getUser() {
-      try {
-        const response = await axios.get("/api/user", {
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
-        });
-        this.authUser = response.data;
-      } catch (error) {
-        console.error(
-          "Failed to fetch the data".error.response?.data || error.message
-        );
-      }
-    },
-
     async handleSubmit(formData) {
       try {
         await this.getToken();
@@ -63,6 +48,35 @@ export const useAuthStore = defineStore("auth", {
           sessionStorage.removeItem("token");
           this.router.push("/login");
         });
+    },
+
+    async getUser() {
+      try {
+        const response = await axios.get("/api/user", {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+        this.authUser = response.data;
+      } catch (error) {
+        console.error(
+          "Failed to fetch the data".error.response?.data || error.message
+        );
+      }
+    },
+
+    async getAllUsers() {
+      try {
+        const response = await axios.get("/api/users", {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+          },
+        });
+        return response.data;
+        return response;
+      } catch (error) {
+        console.log("error fetching users", error);
+      }
     },
   },
 });

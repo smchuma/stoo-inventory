@@ -18,7 +18,7 @@ import { Button } from "primevue";
       v-tooltip="{ value: 'Add New User' }"
       rounded
       aria-label="Filter"
-      class="text-white bg-gray-600 !hover:bg-gray-900"
+      class="text-white !bg-gray-600 !hover:bg-gray-900"
     />
   </main>
 </template>
