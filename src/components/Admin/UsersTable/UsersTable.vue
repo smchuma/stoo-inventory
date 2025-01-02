@@ -9,40 +9,27 @@ import {
   InputIcon,
   InputText,
   Select,
-  MultiSelect,
   Tag,
-  Checkbox,
 } from "primevue";
 
+defineProps({
+  users: {
+    type: Array,
+    required: true,
+  },
+});
+
 const customers = ref();
+
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-  name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  "country.name": { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  representative: { value: null, matchMode: FilterMatchMode.IN },
-  status: { value: null, matchMode: FilterMatchMode.EQUALS },
-  verified: { value: null, matchMode: FilterMatchMode.EQUALS },
+  first_name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  last_name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  phone_number: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  role: { value: null, matchMode: FilterMatchMode.EQUALS },
 });
-const representatives = ref([
-  { name: "Amy Elsner", image: "amyelsner.png" },
-  { name: "Anna Fali", image: "annafali.png" },
-  { name: "Asiya Javayant", image: "asiyajavayant.png" },
-  { name: "Bernardo Dominic", image: "bernardodominic.png" },
-  { name: "Elwin Sharvill", image: "elwinsharvill.png" },
-  { name: "Ioni Bowcher", image: "ionibowcher.png" },
-  { name: "Ivan Magalhaes", image: "ivanmagalhaes.png" },
-  { name: "Onyama Limba", image: "onyamalimba.png" },
-  { name: "Stephen Shaw", image: "stephenshaw.png" },
-  { name: "XuXue Feng", image: "xuxuefeng.png" },
-]);
-const statuses = ref([
-  "unqualified",
-  "qualified",
-  "new",
-  "negotiation",
-  "renewal",
-  "proposal",
-]);
+
+const roles = ref(["admin", "salesperson"]);
 const loading = ref(true);
 
 onMounted(() => {
@@ -59,22 +46,13 @@ const getCustomers = (data) => {
     return d;
   });
 };
-const getSeverity = (status) => {
-  switch (status) {
-    case "unqualified":
-      return "danger";
-
-    case "qualified":
-      return "success";
-
-    case "new":
+const getSeverity = (role) => {
+  switch (role) {
+    case "salesperson":
       return "info";
 
-    case "negotiation":
-      return "warn";
-
-    case "renewal":
-      return null;
+    case "admin":
+      return "danger";
   }
 };
 </script>
@@ -89,13 +67,8 @@ const getSeverity = (status) => {
       dataKey="id"
       filterDisplay="row"
       :loading="loading"
-      :globalFilterFields="[
-        'name',
-        'country.name',
-        'representative.name',
-        'status',
-      ]"
-      class="w-full h-96"
+      :globalFilterFields="['first_name', 'last_name', 'phone_number', 'role']"
+      class="w-full h- border-r-2 border-l-2 border-gray-200"
     >
       <template #header>
         <div class="flex justify-end">
@@ -110,99 +83,68 @@ const getSeverity = (status) => {
           </IconField>
         </div>
       </template>
-      <template #empty> No customers found. </template>
-      <template #loading> Loading customers data. Please wait. </template>
-      <Column field="name" header="Name" style="min-width: 12rem">
+      <template #empty> No Users found. </template>
+      <template #loading> Loading users data. Please wait. </template>
+      <Column field="first_name" header="First Name" style="min-width: 12rem">
         <template #body="{ data }">
-          {{ data.name }}
+          {{ data.first_name }}
         </template>
         <template #filter="{ filterModel, filterCallback }">
           <InputText
             v-model="filterModel.value"
             type="text"
             @input="filterCallback()"
-            placeholder="Search by name"
+            placeholder="Search by first name"
           />
         </template>
       </Column>
-      <Column
-        header="Country"
-        filterField="country.name"
-        style="min-width: 12rem"
-      >
+
+      <Column field="last_name" header="Last Name" style="min-width: 12rem">
         <template #body="{ data }">
-          <div class="flex items-center gap-2">
-            <img
-              alt="flag"
-              src="https://primefaces.org/cdn/primevue/images/flag/flag_placeholder.png"
-              :class="`flag flag-${data.country.code}`"
-              style="width: 24px"
-            />
-            <span>{{ data.country.name }}</span>
-          </div>
+          {{ data.last_name }}
         </template>
         <template #filter="{ filterModel, filterCallback }">
           <InputText
             v-model="filterModel.value"
             type="text"
             @input="filterCallback()"
-            placeholder="Search by country"
+            placeholder="Search by last name"
           />
         </template>
       </Column>
+
       <Column
-        header="Agent"
-        filterField="representative"
-        :showFilterMenu="false"
-        style="min-width: 14rem"
+        field="phone_number"
+        header="Phone Number"
+        style="min-width: 12rem"
       >
         <template #body="{ data }">
-          <div class="flex items-center gap-2">
-            <img
-              :alt="data.representative.name"
-              :src="`https://primefaces.org/cdn/primevue/images/avatar/${data.representative.image}`"
-              style="width: 32px"
-            />
-            <span>{{ data.representative.name }}</span>
-          </div>
+          {{ data.phone_number }}
         </template>
         <template #filter="{ filterModel, filterCallback }">
-          <MultiSelect
+          <InputText
             v-model="filterModel.value"
-            @change="filterCallback()"
-            :options="representatives"
-            optionLabel="name"
-            placeholder="Any"
-            style="min-width: 14rem"
-            :maxSelectedLabels="1"
-          >
-            <template #option="slotProps">
-              <div class="flex items-center gap-2">
-                <img
-                  :alt="slotProps.option.name"
-                  :src="`https://primefaces.org/cdn/primevue/images/avatar/${slotProps.option.image}`"
-                  style="width: 32px"
-                />
-                <span>{{ slotProps.option.name }}</span>
-              </div>
-            </template>
-          </MultiSelect>
+            type="text"
+            @input="filterCallback()"
+            placeholder="Search by phone name"
+          />
         </template>
       </Column>
+
       <Column
-        field="status"
-        header="Status"
+        field="role"
+        header="Role"
         :showFilterMenu="false"
         style="min-width: 12rem"
       >
         <template #body="{ data }">
-          <Tag :value="data.status" :severity="getSeverity(data.status)" />
+          <Tag :value="data.role" :severity="getSeverity(data.role)" />
         </template>
         <template #filter="{ filterModel, filterCallback }">
           <Select
             v-model="filterModel.value"
             @change="filterCallback()"
-            :options="statuses"
+            :options="roles"
             placeholder="Select One"
             style="min-width: 12rem"
             :showClear="true"
@@ -214,30 +156,6 @@ const getSeverity = (status) => {
               />
             </template>
           </Select>
-        </template>
-      </Column>
-      <Column
-        field="verified"
-        header="Verified"
-        dataType="boolean"
-        style="min-width: 6rem"
-      >
-        <template #body="{ data }">
-          <i
-            class="pi"
-            :class="{
-              'pi-check-circle text-green-500': data.verified,
-              'pi-times-circle text-red-400': !data.verified,
-            }"
-          ></i>
-        </template>
-        <template #filter="{ filterModel, filterCallback }">
-          <Checkbox
-            v-model="filterModel.value"
-            :indeterminate="filterModel.value === null"
-            binary
-            @change="filterCallback()"
-          />
         </template>
       </Column>
     </DataTable>

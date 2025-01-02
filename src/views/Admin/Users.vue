@@ -6,12 +6,13 @@ import { onMounted, ref } from "vue";
 
 const { getAllUsers, token } = useAuthStore();
 
+const users = ref(null);
+
 onMounted(async () => {
   if (token) {
     try {
       const data = await getAllUsers();
-
-      console.log(data);
+      users.value = data;
     } catch (error) {
       console.log("Error fetching user", error);
     }
@@ -21,5 +22,5 @@ onMounted(async () => {
 
 <template>
   <Header />
-  <UsersTable />
+  <UsersTable :users="users" />
 </template>

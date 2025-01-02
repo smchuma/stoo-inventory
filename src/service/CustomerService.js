@@ -3,21 +3,12 @@ export const CustomerService = {
     return [
       {
         id: 1000,
-        name: "James Butt",
-        country: {
-          name: "Algeria",
-          code: "dz",
-        },
-        company: "Benton, John B Jr",
+        first_name: "James",
+        last_name: "Butt",
+        phone_number: "0712122729",
         date: "2015-09-13",
-        status: "unqualified",
-        verified: true,
-        activity: 17,
-        representative: {
-          name: "Ioni Bowcher",
-          image: "ionibowcher.png",
-        },
-        balance: 70663,
+        role: "admin",
+        email: "samora@gmail.com",
       },
     ];
   },
