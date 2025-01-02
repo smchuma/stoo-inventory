@@ -20,11 +20,11 @@ const toggleSidebar = () => {
     />
 
     <!-- Main Content -->
-    <div class="flex flex-col flex-1 lg:ml-64">
+    <div class="flex flex-col flex-1 lg:ml-64 lg:w-[calc(100%-16rem)]">
       <!-- Navbar -->
       <AdminNav
         @toggle-sidebar="toggleSidebar"
-        class="shadow-md w-full px-4 py-4 lg:left-64 fixed top-0 lg:w-[calc(100%-16rem)] z-10"
+        class="shadow-md w-full px-4 py-4 lg:left-64 fixed top-0 z-10 lg:w-[calc(100%-16rem)]"
       />
       <main class="mt-16 flex-1 p-4 overflow-y-auto">
         <RouterView />

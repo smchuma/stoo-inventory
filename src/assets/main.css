@@ -9,3 +9,15 @@
   font-weight: 400;
   font-style: normal;
 }
+
+/* body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-face-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+} */

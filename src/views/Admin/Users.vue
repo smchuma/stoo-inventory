@@ -21,5 +21,5 @@ onMounted(async () => {
 
 <template>
   <Header />
-  <!-- <UsersTable /> -->
+  <UsersTable />
 </template>

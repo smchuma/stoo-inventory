@@ -73,6 +73,7 @@ export const useAuthStore = defineStore("auth", {
           },
         });
         return response.data;
+
         return response;
       } catch (error) {
         console.log("error fetching users", error);

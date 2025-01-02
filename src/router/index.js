@@ -26,23 +26,23 @@ const routes = [
     children: [
       {
         path: "users",
-        name: "users",
+        name: "Users",
         component: Users,
       },
 
       {
         path: "category",
-        name: "category",
+        name: "Category",
         component: Category,
       },
       {
         path: "suppliers",
-        name: "suppliers",
+        name: "Suppliers",
         component: Supplier,
       },
       {
         path: "products",
-        name: "products",
+        name: "Products",
         component: Product,
       },
     ],

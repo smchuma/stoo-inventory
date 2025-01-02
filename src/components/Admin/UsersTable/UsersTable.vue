@@ -95,7 +95,7 @@ const getSeverity = (status) => {
         'representative.name',
         'status',
       ]"
-      class="w-[calc(100%-16rem)]"
+      class="w-full h-96"
     >
       <template #header>
         <div class="flex justify-end">

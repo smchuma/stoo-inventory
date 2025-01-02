@@ -1,8 +1,9 @@
 <script setup>
 import { useAuthStore } from "@/stores/auth";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import Avatar from "primevue/avatar";
 import { Menu } from "primevue";
+import { useRoute } from "vue-router";
 
 defineProps({
   onToggleSidebar: {
@@ -13,6 +14,9 @@ defineProps({
 
 const authStore = useAuthStore();
 const menu = ref(null);
+const route = useRoute();
+
+const currentRouteName = computed(() => route.name || "Unknown Route");
 
 onMounted(async () => {
   if (!authStore.authUser && authStore.token) {
@@ -64,7 +68,7 @@ const menuItems = [
       <button class="block lg:hidden" @click="onToggleSidebar">
         <v-icon name="gi-hamburger-menu" />
       </button>
-      <h1>IoNotifications</h1>
+      <h1 class="font-semibold">{{ currentRouteName }}</h1>
     </div>
 
     <div class="flex items-center gap-x-5">
