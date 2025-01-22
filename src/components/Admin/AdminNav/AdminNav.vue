@@ -1,6 +1,5 @@
 <script setup>
-import { useAuthStore } from "@/stores/auth";
-import { onMounted, ref, computed } from "vue";
+import { ref, computed } from "vue";
 import Avatar from "primevue/avatar";
 import { Menu } from "primevue";
 import { useRoute } from "vue-router";
@@ -12,22 +11,10 @@ defineProps({
   },
 });
 
-const authStore = useAuthStore();
 const menu = ref(null);
 const route = useRoute();
 
 const currentRouteName = computed(() => route.name || "Unknown Route");
-
-onMounted(async () => {
-  if (!authStore.authUser && authStore.token) {
-    try {
-      await authStore.getUser();
-    } catch (error) {
-      console.log("Error fetching user", error);
-      // authStore.logout()
-    }
-  }
-});
 
 const getInitials = (user) => {
   if (user) {
@@ -71,7 +58,7 @@ const menuItems = [
       <h1 class="font-semibold">{{ currentRouteName }}</h1>
     </div>
 
-    <div class="flex items-center gap-x-5">
+    <!-- <div class="flex items-center gap-x-5">
       <v-icon name="io-notifications-outline" />
 
       <Menu
@@ -87,6 +74,6 @@ const menuItems = [
         shape="circle"
         @click="menu.toggle($event)"
       />
-    </div>
+    </div> -->
   </div>
 </template>

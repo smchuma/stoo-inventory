@@ -1,6 +1,6 @@
 <script setup>
 import Input from "@/components/Login/Input.vue";
-import { useAuthStore } from "@/stores/auth";
+import useAuth from "@/composables/useAuth";
 import { Form } from "vee-validate";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
@@ -18,16 +18,18 @@ const formData = ref({
   password: "",
 });
 
-const { handleSubmit } = useAuthStore();
+const { login, user } = useAuth();
 
 const handleFormSubmit = async (values, { resetForm }) => {
   try {
-    await handleSubmit(values);
+    await login(values);
     resetForm();
   } catch (error) {
     console.log(error);
   }
 };
+
+console.log(user);
 </script>
 
 <template>

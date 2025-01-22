@@ -1,5 +1,4 @@
 import AdminLayout from "@/layouts/AdminLayout.vue";
-import { useAuthStore } from "@/stores/auth";
 import Category from "@/views/Admin/Category.vue";
 import Product from "@/views/Admin/Product.vue";
 import Supplier from "@/views/Admin/Supplier.vue";
@@ -55,15 +54,15 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
-  const authStore = useAuthStore();
+// router.beforeEach(async (to, from, next) => {
+//   const authStore = useAuthStore();
 
-  if (to.meta.requiresAuth) {
-    if (!authStore.token) {
-      return next("/login");
-    }
-  }
-  next();
-});
+//   if (to.meta.requiresAuth) {
+//     if (!authStore.token) {
+//       return next("/login");
+//     }
+//   }
+//   next();
+// });
 
 export default router;
