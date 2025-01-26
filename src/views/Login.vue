@@ -1,35 +1,37 @@
 <script setup>
+import axiosClient from "@/axios";
 import Input from "@/components/Login/Input.vue";
-import useAuth from "@/composables/useAuth";
 import { Form } from "vee-validate";
 import { ref } from "vue";
-import { useRoute } from "vue-router";
 import * as yup from "yup";
+import router from "../router";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().required(),
 });
 
-const router = useRoute();
-
 const formData = ref({
   email: "",
   password: "",
 });
 
-const { login, user } = useAuth();
-
-const handleFormSubmit = async (values, { resetForm }) => {
+const handleFormSubmit = async (values) => {
   try {
-    await login(values);
-    resetForm();
+    const response = await axiosClient.post("/auth/login", values);
+    console.log(response);
+
+    if (response.status === 200) {
+      if (response.data.user.userRole === "admin") {
+        router.push("/admin/users");
+      } else {
+        router.push("/");
+      }
+    }
   } catch (error) {
     console.log(error);
   }
 };
-
-console.log(user);
 </script>
 
 <template>

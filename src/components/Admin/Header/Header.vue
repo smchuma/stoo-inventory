@@ -1,5 +1,13 @@
 <script setup>
+import axiosClient from "@/axios";
 import { Button } from "primevue";
+
+const fetchUsers = async () => {
+  const response = await axiosClient.get("/auth/user");
+  console.log(response.data);
+};
+
+fetchUsers();
 </script>
 
 <template>

@@ -3,6 +3,8 @@ import { ref, computed } from "vue";
 import Avatar from "primevue/avatar";
 import { Menu } from "primevue";
 import { useRoute } from "vue-router";
+import axiosClient from "@/axios";
+import router from "@/router";
 
 defineProps({
   onToggleSidebar: {
@@ -47,6 +49,12 @@ const menuItems = [
     },
   },
 ];
+
+const logout = () => {
+  axiosClient.post("/auth/logout").then((response) => {
+    router.push("/login");
+  });
+};
 </script>
 
 <template>
@@ -75,5 +83,6 @@ const menuItems = [
         @click="menu.toggle($event)"
       />
     </div> -->
+    <button @click="logout">logout</button>
   </div>
 </template>
