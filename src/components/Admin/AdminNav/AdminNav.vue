@@ -5,6 +5,7 @@ import { Menu } from "primevue";
 import { useRoute } from "vue-router";
 import axiosClient from "@/axios";
 import router from "@/router";
+import useAuth from "@/composables/useAuth";
 
 defineProps({
   onToggleSidebar: {
@@ -50,11 +51,7 @@ const menuItems = [
   },
 ];
 
-const logout = () => {
-  axiosClient.post("/auth/logout").then((response) => {
-    router.push("/login");
-  });
-};
+const { logout } = useAuth();
 </script>
 
 <template>

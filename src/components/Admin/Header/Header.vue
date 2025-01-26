@@ -1,13 +1,11 @@
 <script setup>
 import axiosClient from "@/axios";
+import useAuth from "@/composables/useAuth";
 import { Button } from "primevue";
 
-const fetchUsers = async () => {
-  const response = await axiosClient.get("/auth/user");
-  console.log(response.data);
-};
+const { user, fetchUser } = useAuth();
 
-fetchUsers();
+console.log(user.value.first_name);
 </script>
 
 <template>
@@ -20,6 +18,7 @@ fetchUsers();
       <p class="text-gray-500 mt-1">
         Manage your employees and their accounts here
       </p>
+      <p v-if="user">{{ user.first_name }}</p>
     </div>
     <Button
       icon="pi pi-plus"

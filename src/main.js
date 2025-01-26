@@ -22,6 +22,7 @@ import {
   MdDashboardcustomize,
   IoNotificationsOutline,
 } from "oh-vue-icons/icons";
+import useAuth from "./composables/useAuth";
 
 addIcons(
   GiHamburgerMenu,
@@ -40,7 +41,6 @@ pinia.use(({ store }) => {
 });
 
 app.use(pinia);
-app.use(router);
 
 app.use(PrimeVue, {
   theme: {
@@ -55,4 +55,9 @@ app.directive("tooltip", Tooltip);
 
 app.component("v-icon", OhVueIcon);
 
-app.mount("#app");
+const { fetchUser } = useAuth();
+
+fetchUser().then(() => {
+  app.use(router);
+  app.mount("#app");
+});

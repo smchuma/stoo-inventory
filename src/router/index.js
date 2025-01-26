@@ -6,18 +6,23 @@ import Users from "@/views/Admin/Users.vue";
 import Login from "@/views/Login.vue";
 import Home from "@/views/Salesperson/Home.vue";
 import { createRouter, createWebHistory } from "vue-router";
+import middlewarePipeline from "./middlewarePipeline";
+import redirectIfGuest from "@/middlewares/redirectIfGuest";
+import redirectIfAuthenticated from "@/middlewares/redirectIfAuthenticated";
+import redirectIfAdmin from "@/middlewares/redirectIfAdmin";
 
 const routes = [
   {
     path: "/",
     name: "home",
     component: Home,
-    meta: { requiresAuth: true },
+    meta: { middleware: [redirectIfGuest, redirectIfAdmin] },
   },
   {
     path: "/login",
     name: "login",
     component: Login,
+    meta: { middleware: [redirectIfAuthenticated] },
   },
   {
     path: "/admin",
@@ -25,7 +30,7 @@ const routes = [
     children: [
       {
         path: "users",
-        name: "Users",
+        name: "users",
         component: Users,
       },
 
@@ -45,7 +50,7 @@ const routes = [
         component: Product,
       },
     ],
-    meta: { requiresAuth: true, roles: ["admin"] },
+    meta: { middleware: [redirectIfGuest] },
   },
 ];
 
@@ -54,15 +59,19 @@ const router = createRouter({
   routes,
 });
 
-// router.beforeEach(async (to, from, next) => {
-//   const authStore = useAuthStore();
+router.beforeEach((to, from, next) => {
+  if (!to.meta.middleware) {
+    return next();
+  }
 
-//   if (to.meta.requiresAuth) {
-//     if (!authStore.token) {
-//       return next("/login");
-//     }
-//   }
-//   next();
-// });
+  const middleware = to.meta.middleware;
+
+  const context = { to, from, next };
+
+  return middleware[0]({
+    ...context,
+    next: middlewarePipeline(context, middleware, 1),
+  });
+});
 
 export default router;
