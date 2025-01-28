@@ -22,7 +22,10 @@ import {
   MdDashboardcustomize,
   IoNotificationsOutline,
 } from "oh-vue-icons/icons";
-import useAuth from "./composables/useAuth";
+
+import { QueryClient, VueQueryPlugin } from "@tanstack/vue-query";
+import axiosClient from "./axios";
+import { useAuthStore } from "./store/auth";
 
 addIcons(
   GiHamburgerMenu,
@@ -40,8 +43,6 @@ pinia.use(({ store }) => {
   store.router = markRaw(router);
 });
 
-app.use(pinia);
-
 app.use(PrimeVue, {
   theme: {
     preset: Aura,
@@ -52,12 +53,32 @@ app.use(PrimeVue, {
 });
 
 app.directive("tooltip", Tooltip);
+app.use(pinia);
+
+const queryClient = new QueryClient();
 
 app.component("v-icon", OhVueIcon);
 
-const { fetchUser } = useAuth();
+const authStore = useAuthStore();
 
-fetchUser().then(() => {
+async function prefetchUser() {
+  try {
+    const response = await axiosClient.get("/auth/user");
+
+    if (response.data.user) {
+      const user = response.data.user;
+      authStore.setAuthenticated(!!user);
+    }
+  } catch (error) {
+    console.log("Failed to fetch the user data", error);
+    authStore.setAuthenticated(false);
+  }
+}
+
+prefetchUser().then(() => {
   app.use(router);
+  app.use(VueQueryPlugin, {
+    queryClient,
+  });
   app.mount("#app");
 });

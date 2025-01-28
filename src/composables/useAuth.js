@@ -1,86 +1,58 @@
 import axiosClient from "@/axios";
 import router from "@/router";
+import { useAuthStore } from "@/store/auth";
+import { useMutation, useQuery } from "@tanstack/vue-query";
 
-import { reactive, computed } from "vue";
+export const useAuth = () => {
+  const authstore = useAuthStore();
 
-const state = reactive({
-  user: {},
-  isAuthenticated: false,
-  isLoading: false,
-  error: null,
-});
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["user_data"],
+    queryFn: async () => {
+      const response = await axiosClient.get("/auth/user");
+      return response.data.user;
+    },
+  });
 
-export default function useAuth() {
-  const authenticated = computed(() => state.isAuthenticated);
-  const user = computed(() => state.user);
-  const loading = computed(() => state.isLoading);
-
-  const setUser = (user) => {
-    state.user = user;
-  };
-
-  const setAuthenticated = (isAuthenticated) => {
-    state.isAuthenticated = isAuthenticated;
-  };
-
-  const loginUser = async (credentials) => {
-    state.isLoading = true;
-    try {
+  const loginMutation = useMutation({
+    mutationFn: async (credentials) => {
       const response = await axiosClient.post("/auth/login", credentials);
-      setAuthenticated(true);
-      console.log(response);
-
-      if (response.data.user.userRole === "admin") {
+      return response.data.user;
+    },
+    onSuccess: (data) => {
+      authstore.setAuthenticated(true);
+      if (data.role === "admin") {
         router.push({ name: "users" });
       } else {
         router.push({ name: "home" });
       }
-
-      state.isLoading = false;
-
-      return response;
-    } catch (error) {
-      state.isLoading = false;
+    },
+    onError: (error) => {
       console.log(error);
-    }
-  };
+    },
+  });
 
-  const fetchUser = async () => {
-    state.isLoading = true;
-    try {
-      const response = await axiosClient.get("/auth/user");
-      setAuthenticated(true);
-      setUser(response.data.user);
-      state.isLoading = false;
-
-      return response;
-    } catch (error) {
-      state.isLoading = false;
-      state.error = error.response.data.message;
-      setAuthenticated(false);
-      setUser({});
-      console.log(error);
-    }
-  };
-
-  const logout = async () => {
-    try {
-      await axiosClient.post("/auth/logout");
-      setAuthenticated(false);
+  const logoutMutation = useMutation({
+    mutationFn: async () => {
+      const response = await axiosClient.post("/auth/logout");
+      return response.data;
+    },
+    onSuccess: () => {
+      authstore.setAuthenticated(false);
       router.push({ name: "login" });
-      setUser({});
-    } catch (error) {
+    },
+    onError: (error) => {
       console.log(error);
-    }
-  };
+    },
+  });
 
   return {
-    authenticated,
-    user,
-    loading,
-    setUser,
-    loginUser,
-    fetchUser,
-    logout,
+    data,
+    isLoading,
+    isError,
+    login: loginMutation.mutate,
+    logout: logoutMutation.mutate,
   };
-}
+};
+
+export default useAuth;

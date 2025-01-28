@@ -1,11 +1,8 @@
 <script setup>
-import axiosClient from "@/axios";
 import useAuth from "@/composables/useAuth";
 import { Button } from "primevue";
 
-const { user, fetchUser } = useAuth();
-
-console.log(user.value.first_name);
+const { data, isLoading } = useAuth();
 </script>
 
 <template>
@@ -18,7 +15,9 @@ console.log(user.value.first_name);
       <p class="text-gray-500 mt-1">
         Manage your employees and their accounts here
       </p>
-      <p v-if="user">{{ user.first_name }}</p>
+      <!-- Show user info if data is loaded -->
+      <p v-if="data && data.first_name">Welcome, {{ data.first_name }}</p>
+      <p v-else-if="isLoading">Loading user info...</p>
     </div>
     <Button
       icon="pi pi-plus"

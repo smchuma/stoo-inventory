@@ -1,12 +1,13 @@
 import useAuth from "@/composables/useAuth";
+import { useAuthStore } from "@/store/auth";
 
 export default function redirectIfAdmin({ next }) {
-  const { user } = useAuth();
+  const authStore = useAuthStore();
 
-  console.log("User role:", user.value ? user.value.role : "undefined");
-
-  if (user.value && user.value.role === "admin") {
-    return next({ name: "users" });
+  if (authStore.isAuthenticated) {
+    return next({
+      name: "users",
+    });
   }
 
   return next();

@@ -10,7 +10,7 @@ const schema = yup.object().shape({
   password: yup.string().required(),
 });
 
-const { loginUser } = useAuth();
+const { login, loginLoading } = useAuth();
 
 const formData = ref({
   email: "",
@@ -18,7 +18,7 @@ const formData = ref({
 });
 
 const handleFormSubmit = (values) => {
-  loginUser(values);
+  login(values);
 };
 </script>
 
@@ -53,7 +53,8 @@ const handleFormSubmit = (values) => {
           type="submit"
           class="w-full bg-gray-600 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-md"
         >
-          Login
+          <span v-if="loginLoading">Loging....</span>
+          <span v-else="loginLoading">Login</span>
         </button>
       </Form>
     </div>

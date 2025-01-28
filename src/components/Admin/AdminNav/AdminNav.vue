@@ -3,8 +3,7 @@ import { ref, computed } from "vue";
 import Avatar from "primevue/avatar";
 import { Menu } from "primevue";
 import { useRoute } from "vue-router";
-import axiosClient from "@/axios";
-import router from "@/router";
+
 import useAuth from "@/composables/useAuth";
 
 defineProps({
@@ -16,6 +15,7 @@ defineProps({
 
 const menu = ref(null);
 const route = useRoute();
+const { logout, data: user, isLoading } = useAuth();
 
 const currentRouteName = computed(() => route.name || "Unknown Route");
 
@@ -46,12 +46,10 @@ const menuItems = [
     label: "Logout",
     icon: "pi pi-sign-out",
     command: () => {
-      authStore.logout();
+      logout();
     },
   },
 ];
-
-const { logout } = useAuth();
 </script>
 
 <template>
@@ -61,9 +59,11 @@ const { logout } = useAuth();
         <v-icon name="gi-hamburger-menu" />
       </button>
       <h1 class="font-semibold">{{ currentRouteName }}</h1>
+      <p v-if="user">{{ user.first_name }}</p>
+      <p v-else-if="isLoading">Loading user info...</p>
     </div>
 
-    <!-- <div class="flex items-center gap-x-5">
+    <div class="flex items-center gap-x-5">
       <v-icon name="io-notifications-outline" />
 
       <Menu
@@ -74,12 +74,11 @@ const { logout } = useAuth();
         id="overlay_menu"
       />
       <Avatar
-        :label="getInitials(authStore.authUser)"
+        :label="getInitials(user)"
         class="bg-gray-200 border-5 cursor-pointer"
         shape="circle"
         @click="menu.toggle($event)"
       />
-    </div> -->
-    <button @click="logout">logout</button>
+    </div>
   </div>
 </template>

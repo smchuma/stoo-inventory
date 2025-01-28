@@ -5,5 +5,5 @@ import UsersTable from "@/components/Admin/UsersTable/UsersTable.vue";
 
 <template>
   <Header />
-  <UsersTable :users="users" />
+  <!-- <UsersTable :users="users" /> -->
 </template>

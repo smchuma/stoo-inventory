@@ -1,11 +1,9 @@
-import useAuth from "@/composables/useAuth";
+import { useAuthStore } from "@/store/auth";
 
 export default function redirectIfGuest({ next }) {
-  const { authenticated } = useAuth();
+  const authStore = useAuthStore();
 
-  console.log(authenticated);
-
-  if (!authenticated.value) {
+  if (!authStore.isAuthenticated) {
     return next({
       name: "login",
     });
