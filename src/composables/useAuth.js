@@ -9,7 +9,7 @@ export const useAuth = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["user_data"],
     queryFn: async () => {
-      const response = await axiosClient.get("/auth/user");
+      const response = await axiosClient.get("/auth/check_auth");
       return response.data.user;
     },
   });

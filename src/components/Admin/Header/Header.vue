@@ -1,8 +1,5 @@
 <script setup>
-import useAuth from "@/composables/useAuth";
-import { Button } from "primevue";
-
-const { data, isLoading } = useAuth();
+import UsersModal from "../Users/UsersModal.vue";
 </script>
 
 <template>
@@ -15,16 +12,7 @@ const { data, isLoading } = useAuth();
       <p class="text-gray-500 mt-1">
         Manage your employees and their accounts here
       </p>
-      <!-- Show user info if data is loaded -->
-      <p v-if="data && data.first_name">Welcome, {{ data.first_name }}</p>
-      <p v-else-if="isLoading">Loading user info...</p>
     </div>
-    <Button
-      icon="pi pi-plus"
-      v-tooltip="{ value: 'Add New User' }"
-      rounded
-      aria-label="Filter"
-      class="text-white !bg-gray-600 !hover:bg-gray-900"
-    />
+    <UsersModal />
   </main>
 </template>

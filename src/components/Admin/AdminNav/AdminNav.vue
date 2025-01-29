@@ -59,8 +59,6 @@ const menuItems = [
         <v-icon name="gi-hamburger-menu" />
       </button>
       <h1 class="font-semibold">{{ currentRouteName }}</h1>
-      <p v-if="user">{{ user.first_name }}</p>
-      <p v-else-if="isLoading">Loading user info...</p>
     </div>
 
     <div class="flex items-center gap-x-5">

@@ -63,7 +63,7 @@ const authStore = useAuthStore();
 
 async function prefetchUser() {
   try {
-    const response = await axiosClient.get("/auth/user");
+    const response = await axiosClient.get("/auth/check_auth");
 
     if (response.data.user) {
       const user = response.data.user;
